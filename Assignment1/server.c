@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <netinet/in.h>
 #include <string.h>
+#include <pwd.h>
 
 #define PORT 80
 int main(int argc, char const *argv[])
@@ -17,6 +18,7 @@ int main(int argc, char const *argv[])
     char buffer[102] = {0};
     char *hello = "Hello from server";
 
+    // Display ASLR
     printf("execve=0x%p\n", execve);
 
     // Creating socket file descriptor
@@ -55,9 +57,40 @@ int main(int argc, char const *argv[])
         perror("accept");
         exit(EXIT_FAILURE);
     }
-    valread = read( new_socket , buffer, 1024);
-    printf("%s\n",buffer );
-    send(new_socket , hello , strlen(hello) , 0 );
-    printf("Hello message sent\n");
-    return 0;
+    
+    //--------Separating Process here------
+    int status;
+    struct passwd *pwd;
+    char *name = "nobody";
+    childProcessID = fork();
+    uid_t uid;
+    pid_t waitPID;
+    
+    if(childProcessID == 0){
+        printf("The ID of chld process before dropping privileges is: %d \n", getuid());
+        pwd = getpwnam(name);
+        
+        if (pwd ==  NULL){
+            printf("Unable to find UID for user %s\n", name);
+            return 0;
+        }
+        
+        // changing UID to nobody
+        else{
+            uid = setuid(pwd ->pw_uid);
+            printf("The ID of chld process after dropping privileges is: %d \n", getuid());
+        }
+        
+        valread = read( new_socket , buffer, 1024);
+        printf("%s\n",buffer );
+        send(new_socket , hello , strlen(hello) , 0 );
+        printf("Hello message sent\n");
+        return 0;
+    }
+    
+    else{
+        status = 0;
+        while((waitPID = wait(&status)) > 0);
+        printf("Exiting child process, going back to parent\n");
+    }
 }
