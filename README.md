@@ -7,6 +7,8 @@ Software Security Technology Assignments
 
 Steps to Run the Assignment:
 
+	Make sure you are in sudo mode
+
 	Run server on the first terminal window
 
 	1. cc -o server server.c
