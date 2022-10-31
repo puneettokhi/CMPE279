@@ -77,8 +77,12 @@ int main(int argc, char const *argv[])
         
         // changing UID to nobody
         else{
-	    setuid(pwd->pw_uid);
+	    id = setuid(pwd->pw_uid);
             printf("The ID of chld process after dropping privileges is: %d \n", getuid());
+
+	    if (id == 0){
+		printf("Successfully dropped privileges\n");
+	    }
         }
         
         valread = read( new_socket , buffer, 1024);
