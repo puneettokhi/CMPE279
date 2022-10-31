@@ -7,7 +7,7 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <pwd.h>
-
+#include <sys/wait.h>
 #define PORT 80
 int main(int argc, char const *argv[])
 {
@@ -62,7 +62,7 @@ int main(int argc, char const *argv[])
     int status;
     struct passwd *pwd;
     char *name = "nobody";
-    childProcessID = fork();
+    pid_t childProcessID = fork();
     uid_t uid;
     pid_t waitPID;
     
