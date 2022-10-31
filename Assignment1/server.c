@@ -8,7 +8,7 @@
 #include <string.h>
 #include <pwd.h>
 #include <sys/wait.h>
-#define PORT 80
+#define PORT 8080
 int main(int argc, char const *argv[])
 {
     int server_fd, new_socket, valread;
@@ -63,26 +63,26 @@ int main(int argc, char const *argv[])
     struct passwd *pwd;
     char *name = "nobody";
     pid_t childProcessID = fork();
-    uid_t uid;
     pid_t waitPID;
+    int id;
     
     if(childProcessID == 0){
         printf("The ID of chld process before dropping privileges is: %d \n", getuid());
         pwd = getpwnam(name);
         
         if (pwd ==  NULL){
-            printf("Unable to find UID for user %s\n", name);
+            printf("Unable to find UID for the user %s\n", name);
             return 0;
         }
         
         // changing UID to nobody
         else{
-            uid = setuid(pwd ->pw_uid);
+	    setuid(pwd->pw_uid);
             printf("The ID of chld process after dropping privileges is: %d \n", getuid());
         }
         
         valread = read( new_socket , buffer, 1024);
-        printf("%s\n",buffer );
+        printf("\n%d bytes read in the message: %s\n", valread, buffer);
         send(new_socket , hello , strlen(hello) , 0 );
         printf("Hello message sent\n");
         return 0;
