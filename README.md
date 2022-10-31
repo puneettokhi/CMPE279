@@ -7,7 +7,7 @@ Software Security Technology Assignments
 
 Steps to Run the Assignment:
 
-	Make sure you are in sudo mode
+Make sure you are in `sudo` mode
 
 	Run server on the first terminal window
 
