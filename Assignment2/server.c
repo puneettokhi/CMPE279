@@ -24,6 +24,7 @@ int main(int argc, char const *argv[])
     
     if (strcmp(argv[0], "c") == 0)
     {
+        printf("\nExeced Child Process started..\n");
         int dupl_sock = atoi(argv[1]);
         valread = read(dupl_sock, buffer, 1024);
         printf("%s\n", buffer);
@@ -99,16 +100,16 @@ int main(int argc, char const *argv[])
             }
             
             valread = read( new_socket , buffer, 1024);
-            printf("\n%d bytes read in the message: %s\n", valread, buffer);
+            printf("%s\n", buffer);
             send(new_socket , hello , strlen(hello) , 0 );
-            printf("Hello message sent\n");
+            printf("Hello message sent\n\n");
             
             // Re-executing server's child process and creating new socket
             int socket_copy = dup(new_socket);
             
             if(socket_copy == -1)
             {
-                perror("Sorry!! Unable to create a copy of file descriptor");
+                perror("Sorry!! Unable to create a copy of file descriptor\n");
             }
             
             char socket_str[10];
@@ -116,7 +117,7 @@ int main(int argc, char const *argv[])
             char *args[] = {"c", socket_str, NULL};
             execvp(argv[0], args);
         }
-        wait();
+        wait(NULL);
     }
     return 0;
 }
