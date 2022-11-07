@@ -30,7 +30,7 @@ int main(int argc, char const *argv[])
         printf("%s\n", buffer);
         send(dupl_sock, hello, strlen(hello), 0);
         printf("Sending Hello message....\n");
-        printf("Hello message sent");
+        printf("Hello message sent\n");
         exit(0);
     }
     
