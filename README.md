@@ -1,7 +1,7 @@
 # CMPE279
 Software Security Technology Assignments
 
-## Assignment 1
+## Assignment
 
 ### Team Member: Puneet Tokhi
 
