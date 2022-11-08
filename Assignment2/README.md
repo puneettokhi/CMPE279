@@ -5,3 +5,16 @@
 ### Team Member: Puneet Tokhi
 
 
+Make sure you are in `sudo` mode
+
+	Run server on the first terminal window
+
+	1. cc -o server server.c
+	2. ./server
+
+	Run client on the other terminal window
+
+	1. cc -o client client.c
+	2. ./client
+
+
